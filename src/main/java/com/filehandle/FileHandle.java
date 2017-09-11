@@ -160,6 +160,14 @@ public class FileHandle implements HandleCommon {
         return this.fp;
     }
 
+    public String getFileType() {
+        return this.type;
+    }
+
+    public String getFileName() {
+        return this.name;
+    }
+
     public boolean isDirectory() {
         return isDirectory(fp);
     }
