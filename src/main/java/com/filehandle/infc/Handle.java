@@ -62,6 +62,18 @@ public interface Handle {
     public File getFile();
 
     /**
+     * 获取当前FileHandle实例内部指向的File实例的文件类型
+     * @return
+     */
+    public String getFileType();
+
+    /**
+     * 获取当前FileHandle实例内部指向的File实例的文件名
+     * @return
+     */
+    public String getFileName();
+
+    /**
      * 判断是否为目录</br>
      * 判断的File为FileHandle实例内部指向的File实例
      * @return 是否为目录
