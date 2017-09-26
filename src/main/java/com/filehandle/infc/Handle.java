@@ -86,4 +86,17 @@ public interface Handle {
      * @return 是否为目录
      */
     public boolean isDirectory(File fp);
+
+    /**
+     * 判断FileHandle实例所指向的File实例是否存在
+     * @return 文件是否存在
+     */
+    public boolean isExist();
+
+    /**
+     * 判断fp所指向的实例是否存在
+     * @param fp
+     * @return 文件是否存在
+     */
+    public boolean isExist(File fp);
 }
