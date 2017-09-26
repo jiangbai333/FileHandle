@@ -42,11 +42,11 @@ public interface HandleCommon extends Handle{
      * @since v0.2
      * @see List
      */
-    public List files(File dir);
+    public List<File> files(File dir);
 
     /**
      * 获取获取FileHandle实例中所指向的目录下的文件列表
      * @return 目录内文件列表
      */
-    public List files();
+    public List<File> files();
 }

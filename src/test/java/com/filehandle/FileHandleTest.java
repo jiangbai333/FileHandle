@@ -20,6 +20,11 @@ public class FileHandleTest {
             System.out.println(jr.getString(i));
         }
         System.out.println(jr.toArray());
+
+        FileHandle fh = FileHandle.fromObject("../fileHandle");
+        System.out.println(fh.getFileName());
+        System.out.println(fh.size());
+        System.out.println("11111111111");
         //Assert.assertEquals("hello world!", new FileHandle().sayHello());
     }
 }

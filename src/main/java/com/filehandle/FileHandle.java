@@ -176,28 +176,24 @@ public class FileHandle implements HandleCommon {
         return fp.isDirectory();
     }
 
-    public List files(File dir) {
-        List rt =
-                new ArrayList();
+    public boolean isExist() {
+        return false;
+    }
+
+    public boolean isExist(File fp) {
+        return false;
+    }
+
+    public List<File> files(File dir) {
+        List<File> rt =
+                new ArrayList<File>();
 
         if ( this.isDirectory(dir) ) {
             File[] fileList =
                     dir.listFiles();
 
             for ( File tempFile : fileList ) {
-
-                Map tempFileMap
-                        = new HashMap();
-
-                if ( tempFile.isDirectory() ) {
-                    tempFileMap.put("type", "dir");
-                } else {
-                    tempFileMap.put("type", "file");
-                }
-                tempFileMap.put("name", tempFile.getName());
-                tempFileMap.put("size", this.size(tempFile));
-
-                rt.add(tempFileMap);
+                rt.add(tempFile);
             }
         }
         return rt;
