@@ -20,6 +20,15 @@ import java.util.Map;
  */
 public class FileHandle implements HandleCommon {
 
+    private static final long kdec = //k的取小数乘子
+            1023;
+
+    private static final long mdec = //m的取小数乘子
+            1048575;
+
+    private static final long gdec = //g的取小数乘子
+            1073741823;
+
     private File fp = // 文件句柄
             null;
     private List<File> _fps = // 文件句柄集合
@@ -90,11 +99,11 @@ public class FileHandle implements HandleCommon {
                 null;
 
         if ( "kb".equals(unit) || "k".equals(unit) ) {
-            rt = size / 1024 + ("." + size % 1024).substring(0, 2) + "KB";
+            rt = (size >> 10) + ((double) (((size & kdec) * 100) >> 10)) / 100 + "KB";
         } else if ( "mb".equals(unit) || "m".equals(unit) ) {
-            rt = size / (1024 * 1024) + ("." + size % (1024 * 1024)).substring(0, 2) + "MB";
+            rt = (size >> 20) + ((double) (((size & mdec) * 100) >> 20)) / 100 + "MB";
         } else if ( "gb".equals(unit) || "g".equals(unit) ) {
-            rt = size / (1024 * 1024 * 1024) + ("." + size % (1024 * 1024 * 1024)).substring(0, 2) + "GB";
+            rt = (size >> 30) + ((double) (((size & gdec) * 100) >> 30)) / 100 + "GB";
         }
 
         return rt;
@@ -184,7 +193,7 @@ public class FileHandle implements HandleCommon {
         return false;
     }
 
-    public List<File> files(File dir) {
+    public List<File> filesList(File dir) {
         List<File> rt =
                 new ArrayList<File>();
 
@@ -199,8 +208,25 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public List files() {
-        return files(fp);
+    public List<File> filesList() {
+        return filesList(fp);
+    }
+
+    public Map<String, File> filesMap(File dir) {
+        Map<String, File> rt =
+                new HashMap<String, File>();
+
+        if ( this.isDirectory(dir) ) {
+            File[] fileList =
+                    dir.listFiles();
+
+        }
+
+        return null;
+    }
+
+    public Map<String, File> filesMap() {
+        return null;
     }
 
     private void setProto() {
