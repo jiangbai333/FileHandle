@@ -19,8 +19,18 @@ public interface Handle {
      * 自动返回对应的单位
      * @param fp 文件实例
      * @return
+     * @since v0.3
      */
     public String adaptiveSize(File fp);
+
+    /**
+     * 获取根据文件体积自动调整体积单位后的文件大小</br>
+     * 单位将以kb、mb、gb表示，按照文档的实际大小，
+     * 自动返回对应的单位
+     * @return
+     * @since v0.3
+     */
+    public String adaptiveSize();
 
     /**
      * 根据<code>unit</code>参数所给出的单位标识返回文件大小</br>
