@@ -3,6 +3,7 @@ package com.filehandle.infc;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文件操作工具类接口</br>
@@ -42,11 +43,27 @@ public interface HandleCommon extends Handle{
      * @since v0.2
      * @see List
      */
-    public List<File> files(File dir);
+    public List<File> filesList(File dir);
 
     /**
-     * 获取获取FileHandle实例中所指向的目录下的文件列表
+     * 获取FileHandle实例中所指向的目录下的文件列表
      * @return 目录内文件列表
      */
-    public List<File> files();
+    public List<File> filesList();
+
+    /**
+     * 获取dir实例下的文件列表，保存在Map中，文件实例作为键值，文件名作为键名
+     * @param dir
+     * @return
+     * @since v0.3
+     * @see Map
+     */
+    public Map<String, File> filesMap(File dir);
+
+    /**
+     * 获取dir实例下的文件列表，保存在Map中，文件实例作为键值，文件名作为键名
+     * @return
+     * @since v0.3
+     */
+    public Map<String, File> filesMap();
 }

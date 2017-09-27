@@ -20,6 +20,15 @@ import java.util.Map;
  */
 public class FileHandle implements HandleCommon {
 
+    private static final long kdec = //k的取小数乘子
+            1023;
+
+    private static final long mdec = //m的取小数乘子
+            1048575;
+
+    private static final long gdec = //g的取小数乘子
+            1073741823;
+
     private File fp = // 文件句柄
             null;
     private List<File> _fps = // 文件句柄集合
@@ -80,37 +89,47 @@ public class FileHandle implements HandleCommon {
     public FileHandle(List<File> files) {}
 
     public String adaptiveSize(File fp) {
-        return null;
+        Long size =
+                size(fp);
+        String rt =
+                null;
+
+        if ( size <= 1024 ) {
+            rt = size + "Byte";
+        } else if ( size > 1024 && size <= 1024000 ) {
+            rt = (size >> 10) + ((double) (((size & kdec) * 100) >> 10)) / 100 + "KB";
+        } else if ( size > 1024000 && size <= 1048576000 ) {
+            rt = (size >> 20) + ((double) (((size & mdec) * 100) >> 20)) / 100 + "MB";
+        } else if ( size > 1048576000 ) {
+            rt = (size >> 30) + ((double) (((size & gdec) * 100) >> 30)) / 100 + "GB";
+        }
+        return rt;
     }
 
+    public String adaptiveSize() { return adaptiveSize(fp); }
+
     public String size(File fp, String unit) {
-        long size =
+        Long size =
                 fp.length();
         String rt =
                 null;
 
         if ( "kb".equals(unit) || "k".equals(unit) ) {
-            rt = size / 1024 + ("." + size % 1024).substring(0, 2) + "KB";
+            rt = (size >> 10) + ((double) (((size & kdec) * 100) >> 10)) / 100 + "KB";
         } else if ( "mb".equals(unit) || "m".equals(unit) ) {
-            rt = size / (1024 * 1024) + ("." + size % (1024 * 1024)).substring(0, 2) + "MB";
+            rt = (size >> 20) + ((double) (((size & mdec) * 100) >> 20)) / 100 + "MB";
         } else if ( "gb".equals(unit) || "g".equals(unit) ) {
-            rt = size / (1024 * 1024 * 1024) + ("." + size % (1024 * 1024 * 1024)).substring(0, 2) + "GB";
+            rt = (size >> 30) + ((double) (((size & gdec) * 100) >> 30)) / 100 + "GB";
         }
 
         return rt;
     }
 
-    public Long size(File fp) {
-        return fp.length();
-    }
+    public Long size(File fp) { return fp.length(); }
 
-    public String size(String unit) {
-        return size(fp, unit);
-    }
+    public String size(String unit) { return size(fp, unit); }
 
-    public Long size() {
-        return size(fp);
-    }
+    public Long size() { return size(fp); }
 
     public List tree(File fp) throws IOException {
         List rt =
@@ -140,9 +159,7 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public List tree() throws IOException {
-        return tree(fp);
-    }
+    public List tree() throws IOException { return tree(fp); }
 
     public Map fileInfo(File file) throws IOException {
         Map rt //返回值 Map
@@ -156,56 +173,65 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public File getFile() {
-        return this.fp;
-    }
+    public File getFile() { return this.fp; }
 
-    public String getFileType() {
-        return this.type;
-    }
+    public String getFileType() { return this.type; }
 
-    public String getFileName() {
-        return this.name;
-    }
+    public String getFileName() { return this.name; }
 
-    public boolean isDirectory() {
-        return isDirectory(fp);
-    }
+    public boolean isDirectory() { return isDirectory(fp); }
 
-    public boolean isDirectory(File fp) {
-        return fp.isDirectory();
-    }
+    public boolean isDirectory(File fp) { return fp.isDirectory(); }
 
-    public boolean isExist() {
-        return false;
-    }
+    public boolean isExist() { return false; }
 
     public boolean isExist(File fp) {
         return false;
     }
 
-    public List<File> files(File dir) {
+    public List<File> filesList(File dir) {
         List<File> rt =
                 new ArrayList<File>();
 
-        if ( this.isDirectory(dir) ) {
-            File[] fileList =
-                    dir.listFiles();
+        File [] files = fileList(dir);
 
-            for ( File tempFile : fileList ) {
-                rt.add(tempFile);
-            }
+        for ( File tempFile : files ) {
+            rt.add(tempFile);
         }
         return rt;
     }
 
-    public List files() {
-        return files(fp);
+    public List<File> filesList() { return filesList(fp); }
+
+    public Map<String, File> filesMap(File dir) {
+        Map<String, File> rt =
+                new HashMap<String, File>();
+
+        File [] files = fileList(dir);
+
+        for ( File tempFile : files ) {
+            rt.put(tempFile.getName(), tempFile);
+        }
+        return rt;
     }
+
+    public Map<String, File> filesMap() { return filesMap(fp); }
 
     private void setProto() {
         this.size = this.size();
         this.name = this.fp.getName();
         this.type = null;
+    }
+
+    private File[] fileList(File dir) {
+        File[] fileList =
+                {};
+
+        if ( this.isDirectory(dir) ) {
+            fileList =
+                    dir.listFiles();
+        }
+
+        return fileList;
     }
 }
