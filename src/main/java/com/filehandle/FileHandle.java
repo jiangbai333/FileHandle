@@ -75,13 +75,13 @@ public class FileHandle implements HandleCommon {
     public FileHandle() {}
 
     public FileHandle(String path) {
-        fp =
+        this.fp =
                 new File(path);
         this.setProto();
     }
 
     public FileHandle(File file) {
-        fp =
+        this.fp =
                 file;
         this.setProto();
     }
@@ -95,41 +95,37 @@ public class FileHandle implements HandleCommon {
                 null;
 
         if ( size <= 1024 ) {
-            rt = size + "Byte";
-        } else if ( size > 1024 && size <= 1024000 ) {
-            rt = (size >> 10) + ((double) (((size & kdec) * 100) >> 10)) / 100 + "KB";
-        } else if ( size > 1024000 && size <= 1048576000 ) {
-            rt = (size >> 20) + ((double) (((size & mdec) * 100) >> 20)) / 100 + "MB";
-        } else if ( size > 1048576000 ) {
-            rt = (size >> 30) + ((double) (((size & gdec) * 100) >> 30)) / 100 + "GB";
+            rt =
+                    size + "Byte";
         }
+        else if ( size > 1024 && size <= 1024000 ) {
+            rt =
+                    this.countSize("k", size);
+        } else if ( size > 1024000 && size <= 1048576000 ) {
+            rt =
+                    this.countSize("m", size);
+        } else if ( size > 1048576000 ) {
+            rt =
+                    this.countSize("g", size);
+        }
+
         return rt;
     }
 
-    public String adaptiveSize() { return adaptiveSize(fp); }
+    public String adaptiveSize() { return adaptiveSize(this.fp); }
 
     public String size(File fp, String unit) {
         Long size =
                 fp.length();
-        String rt =
-                null;
 
-        if ( "kb".equals(unit) || "k".equals(unit) ) {
-            rt = (size >> 10) + ((double) (((size & kdec) * 100) >> 10)) / 100 + "KB";
-        } else if ( "mb".equals(unit) || "m".equals(unit) ) {
-            rt = (size >> 20) + ((double) (((size & mdec) * 100) >> 20)) / 100 + "MB";
-        } else if ( "gb".equals(unit) || "g".equals(unit) ) {
-            rt = (size >> 30) + ((double) (((size & gdec) * 100) >> 30)) / 100 + "GB";
-        }
-
-        return rt;
+        return this.countSize(unit, size);
     }
 
     public Long size(File fp) { return fp.length(); }
 
-    public String size(String unit) { return size(fp, unit); }
+    public String size(String unit) { return size(this.fp, unit); }
 
-    public Long size() { return size(fp); }
+    public Long size() { return size(this.fp); }
 
     public List tree(File fp) throws IOException {
         List rt =
@@ -159,7 +155,7 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public List tree() throws IOException { return tree(fp); }
+    public List tree() throws IOException { return tree(this.fp); }
 
     public Map fileInfo(File file) throws IOException {
         Map rt //返回值 Map
@@ -167,7 +163,7 @@ public class FileHandle implements HandleCommon {
 
         rt.put("name", file.getName());
         rt.put("path", file.getAbsolutePath());
-        rt.put("size", size(file, "k"));
+        rt.put("size", adaptiveSize(file));
         rt.put("lastChangeTime", file.lastModified());
 
         return rt;
@@ -179,15 +175,13 @@ public class FileHandle implements HandleCommon {
 
     public String getFileName() { return this.name; }
 
-    public boolean isDirectory() { return isDirectory(fp); }
+    public boolean isDirectory() { return isDirectory(this.fp); }
 
     public boolean isDirectory(File fp) { return fp.isDirectory(); }
 
-    public boolean isExist() { return false; }
+    public boolean isExist() { return this.fp.exists(); }
 
-    public boolean isExist(File fp) {
-        return false;
-    }
+    public boolean isExist(File fp) { return fp.exists(); }
 
     public List<File> filesList(File dir) {
         List<File> rt =
@@ -201,7 +195,7 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public List<File> filesList() { return filesList(fp); }
+    public List<File> filesList() { return filesList(this.fp); }
 
     public Map<String, File> filesMap(File dir) {
         Map<String, File> rt =
@@ -215,7 +209,23 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public Map<String, File> filesMap() { return filesMap(fp); }
+    public Map<String, File> filesMap() { return filesMap(this.fp); }
+
+    public List<FileHandle> getHandleList(File dir) {
+        return null;
+    }
+
+    public List<FileHandle> getHandleList() {
+        return null;
+    }
+
+    public Map<String, FileHandle> getHandleMap(File dir) {
+        return null;
+    }
+
+    public Map<String, FileHandle> getHandleMap() {
+        return null;
+    }
 
     private void setProto() {
         this.size = this.size();
@@ -233,5 +243,20 @@ public class FileHandle implements HandleCommon {
         }
 
         return fileList;
+    }
+
+    private String countSize(String unit, long size) {
+        String rt =
+                null;
+
+        if ( "kb".equals(unit) || "k".equals(unit) ) {
+            rt = (size >> 10) + ((double) (((size & kdec) * 100) >> 10)) / 100 + "KB";
+        } else if ( "mb".equals(unit) || "m".equals(unit) ) {
+            rt = (size >> 20) + ((double) (((size & mdec) * 100) >> 20)) / 100 + "MB";
+        } else if ( "gb".equals(unit) || "g".equals(unit) ) {
+            rt = (size >> 30) + ((double) (((size & gdec) * 100) >> 30)) / 100 + "GB";
+        }
+
+        return rt;
     }
 }
