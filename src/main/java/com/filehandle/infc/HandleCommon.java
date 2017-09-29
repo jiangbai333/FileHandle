@@ -1,5 +1,7 @@
 package com.filehandle.infc;
 
+import com.filehandle.FileHandle;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -66,4 +68,12 @@ public interface HandleCommon extends Handle{
      * @since v0.3
      */
     public Map<String, File> filesMap();
+
+    public List<FileHandle> getHandleList(File dir);
+
+    public List<FileHandle> getHandleList();
+
+    public Map<String, FileHandle> getHandleMap(File dir);
+
+    public Map<String, FileHandle> getHandleMap();
 }
