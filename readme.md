@@ -1,5 +1,5 @@
 # FileHandle
-![Travis-CI:;](https://img.shields.io/travis/jiangbai333/FileHandle.svg) ![jdk:v1.7+;](https://img.shields.io/badge/jdk-v1.7%2B-green.svg) ![version:v0.2;](https://img.shields.io/badge/version-V0.2-orange.svg) ![license:GUN;](https://img.shields.io/badge/license-GUN-blue.svg)
+![Travis-CI:;](https://img.shields.io/travis/jiangbai333/FileHandle.svg) ![jdk:v1.7+;](https://img.shields.io/badge/jdk-v1.7%2B-green.svg) ![version:v0.3;](https://img.shields.io/badge/version-V0.3-orange.svg) ![license:GUN;](https://img.shields.io/badge/license-GUN-blue.svg)
 ## 简介
 &emsp;&emsp;FileHandle提供一个更简便的文件操作句柄，你可以利用它方便的对文件进行操作。它由java编写，可直接引入到项目，亦可通过maven以依赖的形式引入。FileHandle提供多个工具方法用来操作文件、目录，当你使用时，你会发现它是如此简单以及高性能。
 ## 功能
