@@ -14,7 +14,7 @@ import java.util.Map;
  * </br>
  * </br> e-mail jiangbai333@gmail.com
  * </br> github https://github.com/jiangbai333
- * @version 0.2
+ * @version 0.3
  */
 public interface HandleCommon extends Handle{
 
@@ -56,24 +56,61 @@ public interface HandleCommon extends Handle{
     /**
      * 获取dir实例下的文件列表，保存在Map中，文件实例作为键值，文件名作为键名
      * @param dir
-     * @return
+     * @return Map filename->File
      * @since v0.3
      * @see Map
      */
     public Map<String, File> filesMap(File dir);
 
     /**
-     * 获取dir实例下的文件列表，保存在Map中，文件实例作为键值，文件名作为键名
-     * @return
+     * 若dir实例为目录，则获取dir实例下的文件列表，保存在Map中，文件实例作为键值，文件名作为键名
+     * @return Map 文件实例列表
      * @since v0.3
+     * @see Map
+     * @see File
      */
     public Map<String, File> filesMap();
 
+    /**
+     * 若dir实例为目录，则利用dir目录下的文件，构建一组FileHandle实例，保存在List
+     * 中返回
+     * @param dir 文件实例
+     * @return List FileHandle实例
+     * @since v0.3
+     * @see List
+     * @see FileHandle
+     */
     public List<FileHandle> getHandleList(File dir);
 
+    /**
+     * 若当前FileHandle实例指向的文件实例fp为目录，则利用fp目录下的文件，构建一组
+     * FileHandle实例，保存在List中返回
+     * @return List FileHandle实例
+     * @since v0.3
+     * @see List
+     * @see FileHandle
+     */
     public List<FileHandle> getHandleList();
 
+    /**
+     * 若dir实例为目录，则利用dir目录下的文件，构建一组FileHandle实例，保存在Map中，
+     * 键名为FileHandle实例对应的文件实例的文件名，键值为FileHandle实例
+     * @param dir 文件实例
+     * @return Map filename->FileHandle实例
+     * @since v0.3
+     * @see Map
+     * @see FileHandle
+     */
     public Map<String, FileHandle> getHandleMap(File dir);
 
+    /**
+     * 若当前FileHandle实例指向的文件实例fp为目录，则利用fp目录下的文件，构建一组
+     * FileHandle实例，保存在Map中，键名为FileHandle实例对应的文件实例的文件名，键值
+     * 为FileHandle实例
+     * @return Map filename->FileHandle实例
+     * @since v0.3
+     * @see Map
+     * @see FileHandle
+     */
     public Map<String, FileHandle> getHandleMap();
 }

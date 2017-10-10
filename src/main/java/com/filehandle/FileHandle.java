@@ -16,7 +16,7 @@ import java.util.Map;
  * </br>
  * </br> e-mail jiangbai333@gmail.com
  * </br> github https://github.com/jiangbai333
- * @version 0.2
+ * @version 0.3
  */
 public class FileHandle implements HandleCommon {
 
@@ -72,21 +72,27 @@ public class FileHandle implements HandleCommon {
         return rt;
     }
 
-    public FileHandle() {}
-
+    /**
+     * 从一个指定路径，构建一个FileHandle实例
+     * @param path
+     */
     public FileHandle(String path) {
         this.fp =
                 new File(path);
+
         this.setProto();
     }
 
+    /**
+     * 从一个指定的File对象，构建一个FileHandle实例
+     * @param file
+     */
     public FileHandle(File file) {
         this.fp =
                 file;
+
         this.setProto();
     }
-
-    public FileHandle(List<File> files) {}
 
     public String adaptiveSize(File fp) {
         Long size =
@@ -201,7 +207,8 @@ public class FileHandle implements HandleCommon {
         Map<String, File> rt =
                 new HashMap<String, File>();
 
-        File [] files = fileList(dir);
+        File [] files =
+                this.fileList(dir);
 
         for ( File tempFile : files ) {
             rt.put(tempFile.getName(), tempFile);
@@ -212,19 +219,37 @@ public class FileHandle implements HandleCommon {
     public Map<String, File> filesMap() { return filesMap(this.fp); }
 
     public List<FileHandle> getHandleList(File dir) {
-        return null;
+        List<FileHandle> rt =
+                new ArrayList<FileHandle>();
+        File[] files =
+                this.fileList(dir);
+
+        for (File tempFile : files) {
+            rt.add(FileHandle.fromObject(tempFile));
+        }
+
+        return rt;
     }
 
     public List<FileHandle> getHandleList() {
-        return null;
+        return this.getHandleList(this.fp);
     }
 
     public Map<String, FileHandle> getHandleMap(File dir) {
-        return null;
+        Map<String, FileHandle> rt =
+                new HashMap<String, FileHandle>();
+
+        File [] files =
+                this.fileList(dir);
+
+        for ( File tempFile : files ) {
+            rt.put(tempFile.getName(), FileHandle.fromObject(tempFile));
+        }
+        return rt;
     }
 
     public Map<String, FileHandle> getHandleMap() {
-        return null;
+        return this.getHandleMap(this.fp);
     }
 
     private void setProto() {
