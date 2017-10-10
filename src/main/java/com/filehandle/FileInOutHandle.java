@@ -17,7 +17,7 @@ import java.util.Map;
  * </br>
  * </br> e-mail jiangbai333@gmail.com
  * </br> github https://github.com/jiangbai333
- * @version 0.2
+ * @version 0.3
  */
 public class FileInOutHandle implements InOutHandleCommon {
 
